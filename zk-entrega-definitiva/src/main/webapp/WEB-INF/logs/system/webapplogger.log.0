@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<logs>
+<logMark Type="Init" Date="04/01/2017" Time="18:29:03"/>
+<Log InstanceID="WebApp:MainLogger" LogType="Message" Level="INFO" Date="04/01/2017" Time="18:29:03" LoggerName="webapplogger" Sequence="1" ThreadID="1" ThreadName="main" PackageName="org.test.zk.subsystem" ClassName="SubSystemEvent" MethodName="init" Line="83" Code="1" Message="Webapp logger loaded and configured [webapplogger]."/>

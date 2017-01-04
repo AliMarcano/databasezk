@@ -21,7 +21,7 @@ public class Scons {
 	
 	public static final String _System_Dir = "system"+File.separator;
 	
-	public static final String DB_CONF_DIR = "config";
+	public static final String DB_CONF_DIR = "config/";
 	
 	public static final String DIR_WEB_INF = "WEB-INF";
 	
@@ -33,16 +33,18 @@ public class Scons {
 	public static final String _Logger_Conf_Name = "logger.config.xml";
 	public static final String _Logger_Conf_Prod= "logger.production.config.xml";
 	public static final String _User_Unk = "unknown@unknown.com";
-	public static final String _User_Sess_key= "userCredential";
-	public static final String _Login_Date_Time_Key = "loginDateTime";
-	public static final String _Log_Path_Sess_key = "logPath";
 	
+    public static final String _DB_Connection_Session_Key = "dbConnection";
+    public static final String _User_Credential_Session_Key = "userCredential";
+    public static final String _Login_Date_Time_Session_Key = "loginDateTime";
+    public static final String _Log_Path_Session_Key = "logPath";
 	
-	
-	public static final String CON_KEY = "datacon";
+    public static final String _Webapp_Logger_App_Attribute_Key = "webAppLogger";
+    public static final String _Webapp_Logger_Name = "webapplogger";
+    public static final String _Webapp_Logger_File_Log = "webapplogger.log";
 	
 
-	
+    public static final String CON_KEY = "datacon";
 	
 
 }
