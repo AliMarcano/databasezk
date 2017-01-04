@@ -12,7 +12,7 @@ public class TBLPerson extends CAuditableDataModel implements Serializable {
     protected String strci;
     protected String strnombre;
     protected String strapellido;
-    protected String inttelefono;
+
     protected int intgender;// 0 Mujer, 1 Hombre/
     protected LocalDate cumple=null;
     protected String strcomment;
@@ -21,7 +21,7 @@ public class TBLPerson extends CAuditableDataModel implements Serializable {
         this.strci = strci;
         this.strnombre = strnombre;
         this.strapellido = strapellido;
-        this.inttelefono = inttelefono;
+ 
         this.intgender = intgender;
         this.cumple = cumple;
         this.strcomment = strcomment;
@@ -76,13 +76,5 @@ public class TBLPerson extends CAuditableDataModel implements Serializable {
 
     public void setapellido(String strapellido) {
         this.strapellido = strapellido;
-    }
-
-    public String gettelefono() {
-        return inttelefono;
-    }
-
-    public void settelefono(String strtelefono) {
-        this.inttelefono = strtelefono;
     }
 }

@@ -17,28 +17,28 @@ public class TBLPersonDAO {
         try {
             if (databaseConnection != null && databaseConnection.getDbConection() != null) {
                 Statement statement = databaseConnection.getDbConection().createStatement();
-                ResultSet rs = statement.executeQuery("Select * from tblpersona Where Ci='"+CI+"'");
+                ResultSet rs = statement.executeQuery("Select * from persona Where idpersona='"+CI+"'");
                 if (rs.next()) {
                     resultado = new TBLPerson();
-                    resultado.setci(rs.getString("Ci"));
+                    resultado.setci(rs.getString("idpersona"));
                     resultado.setnombre(rs.getString("Nombre"));
                     resultado.setapellido(rs.getString("Apellido"));
-                    resultado.settelefono(rs.getString("Telefono"));
+                   
                     resultado.setGender(rs.getInt("Genero"));
-                    resultado.setCumple(rs.getDate("Cumple").toLocalDate());
+                    resultado.setCumple(rs.getDate("fecha").toLocalDate());
                     resultado.setComment((rs.getString("Comentario")));
-                    resultado.setCreadoPor(rs.getString("CreadoPor"));
-                    resultado.setCreadoFecha(rs.getDate("CreadoFecha").toLocalDate());
-                    resultado.setCreadoHora(rs.getTime("CreadoHora").toLocalTime());
-                    resultado.setActualizadoPor(rs.getString("ActualizadoPor"));
-                    resultado.setActualizadoFecha(rs.getDate("ActualizadoFecha") != null? rs.getDate("ActualizadoFecha").toLocalDate() : null);
-                    resultado.setActualizadoHora(rs.getTime("ActualizadoHora") != null ? rs.getTime("ActualizadoHora").toLocalTime() : null);
+                    resultado.setCreadoPor(rs.getString("createby"));
+                    resultado.setCreadoFecha(rs.getDate("createdate").toLocalDate());
+                    resultado.setCreadoHora(rs.getTime("createtime").toLocalTime());
+                    resultado.setActualizadoPor(rs.getString("updateeby"));
+                    resultado.setActualizadoFecha(rs.getDate("updatebydate") != null? rs.getDate("updatebydate").toLocalDate() : null);
+                    resultado.setActualizadoHora(rs.getTime("updatebytime") != null ? rs.getTime("updatebytime").toLocalTime() : null);
                     //resultado=tblperson;
                 }
                 rs.close();
                 statement.close();
                 
-                // NO SE CIERRA LA CONEXIÓN
+                // NO SE CIERRA LA CONEXIï¿½N
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +48,7 @@ public class TBLPersonDAO {
 
     public static boolean deleteData(final CDatabaseConnection databaseConnection, final String CI) {
         boolean bresultado = false;
-        final String sqlQuerry = "DELETE FROM tblpersona WHERE Ci ='"+CI+"'";
+        final String sqlQuerry = "DELETE FROM persona WHERE idpersona ='"+CI+"'";
         try{
             if (databaseConnection != null && databaseConnection.getDbConection() != null) {
                 Statement statement = databaseConnection.getDbConection().createStatement();
@@ -58,7 +58,7 @@ public class TBLPersonDAO {
                 statement.close();
             }
         }catch(Exception e){
-            if (databaseConnection != null && databaseConnection.getDbConection() != null) {//Si se está conectado a la bd
+            if (databaseConnection != null && databaseConnection.getDbConection() != null) {//Si se estï¿½ conectado a la bd
                 try{
                     databaseConnection.getDbConection().rollback();
                 }catch(Exception ex){
@@ -71,23 +71,23 @@ public class TBLPersonDAO {
     }
 
     public static boolean insertData(final CDatabaseConnection databaseConnection, final TBLPerson tblperson) {
-        boolean bresultado = false;//Validación
+        boolean bresultado = false;//Validaciï¿½n
         final String sqlQuerry = "'"+tblperson.getStrci() + "','" + tblperson.getnombre() + "','" + tblperson.getapellido()//Ahorro de tiempo
-                + "','" + tblperson.gettelefono() + "','" + tblperson.getGender() + "','" + tblperson.getCumple() + "','"
+                + "','"+ tblperson.getGender() + "','" + tblperson.getCumple() + "','"
                 + tblperson.getComment() + "','root','" + LocalDate.now().toString() + "','" + LocalTime.now().toString()
                 + "',null,null,null";
         try {
-            if (databaseConnection != null && databaseConnection.getDbConection() != null) {//Si se está conectado a la bd
+            if (databaseConnection != null && databaseConnection.getDbConection() != null) {//Si se estï¿½ conectado a la bd
                 Statement statement = databaseConnection.getDbConection().createStatement();//Se crea el statement para comm con mysql
                 statement.executeUpdate(//se da la orden de crear una tupla
-                        "Insert Into tblpersona(Ci,Nombre,Apellido,Telefono,Genero,Cumple,Comentario,CreadoPor,CreadoFecha,CreadoHora,ActualizadoPor,ActualizadoFecha,ActualizadoHora) Values("
+                        "Insert Into persona(idpersona,nombre,apellido,genero,fecha,comentario,createby,createdate,createtime,updateeby,updatebydate,updatebytime) Values("
                         + sqlQuerry + ")");
                 databaseConnection.getDbConection().commit();//Se hace el comit
-                bresultado=true;//Se confirma que funcionó
+                bresultado=true;//Se confirma que funcionï¿½
                 statement.close();//Se liberan recursos
             }
         } catch (Exception e) {
-            if (databaseConnection != null && databaseConnection.getDbConection() != null) {//Si se está conectado a la bd
+            if (databaseConnection != null && databaseConnection.getDbConection() != null) {//Si se estï¿½ conectado a la bd
                 try{
                     databaseConnection.getDbConection().rollback();
                 }catch(Exception ex){
@@ -101,17 +101,17 @@ public class TBLPersonDAO {
 
     public static boolean updateData(final CDatabaseConnection databaseConnection, final TBLPerson tblperson) {
         boolean bresultado = false;
-        final String sqlQuerry = "Update tblpersona Set Ci='"+tblperson.getStrci()+"',Nombre='"+tblperson.getnombre()+"',Apellido='"+tblperson.getapellido()+"',Telefono='"+tblperson.gettelefono()+"',Genero="+tblperson.getGender()+",Cumple='"+tblperson.getCumple()+"',Comentario='"+tblperson.getComment()+"',ActualizadoPor='tester',ActualizadoFecha='"+LocalDate.now().toString()+"',ActualizadoHora='"+LocalTime.now().toString()+"' Where Ci ='"+tblperson.getStrci()+"'";
+        final String sqlQuerry = "Update persona Set idpersona='"+tblperson.getStrci()+"',nombre='"+tblperson.getnombre()+"',apellido='"+tblperson.getapellido()+"',genero="+tblperson.getGender()+",fecha='"+tblperson.getCumple()+"',Comentario='"+tblperson.getComment()+"',updateeby='tester',updatebydate='"+LocalDate.now().toString()+"',updatebytime='"+LocalTime.now().toString()+"' Where idpersona ='"+tblperson.getStrci()+"'";
         try {
-            if (databaseConnection != null && databaseConnection.getDbConection() != null) {//Si se está conectado a la bd
+            if (databaseConnection != null && databaseConnection.getDbConection() != null) {//Si se estï¿½ conectado a la bd
                 Statement statement = databaseConnection.getDbConection().createStatement();//Se crea el statement para comm con mysql
                 statement.executeUpdate(sqlQuerry);
                 databaseConnection.getDbConection().commit();//Se hace el comit
-                bresultado=true;//Se confirma que funcionó
+                bresultado=true;//Se confirma que funcionï¿½
                 statement.close();//Se liberan recursos
             }
         } catch (Exception e) {
-            if (databaseConnection != null && databaseConnection.getDbConection() != null) {//Si se está conectado a la bd
+            if (databaseConnection != null && databaseConnection.getDbConection() != null) {//Si se estï¿½ conectado a la bd
                 try{
                     databaseConnection.getDbConection().rollback();
                 }catch(Exception ex){
@@ -128,30 +128,30 @@ public class TBLPersonDAO {
         try {
             if (databaseConnection != null && databaseConnection.getDbConection() != null) {
                 Statement statement = databaseConnection.getDbConection().createStatement();
-                ResultSet rs = statement.executeQuery("Select * from tblpersona");
+                ResultSet rs = statement.executeQuery("Select * from persona");
                 while (rs.next()) {
                     TBLPerson tblperson = new TBLPerson();
-                    tblperson.setci(rs.getString("Ci"));
-                    tblperson.setnombre(rs.getString("Nombre"));
-                    tblperson.setapellido(rs.getString("Apellido"));
-                    tblperson.settelefono(rs.getString("Telefono"));
-                    tblperson.setGender(rs.getInt("Genero"));
-                    tblperson.setCumple(rs.getDate("Cumple").toLocalDate());
+                    tblperson.setci(rs.getString("idpersona"));
+                    tblperson.setnombre(rs.getString("nombre"));
+                    tblperson.setapellido(rs.getString("apellido"));
+                 
+                    tblperson.setGender(rs.getInt("genero"));
+                    tblperson.setCumple(rs.getDate("fecha").toLocalDate());
                     tblperson.setComment((rs.getString("Comentario")));
-                    tblperson.setCreadoPor(rs.getString("CreadoPor"));
-                    tblperson.setCreadoFecha(rs.getDate("CreadoFecha").toLocalDate());
-                    tblperson.setCreadoHora(rs.getTime("CreadoHora").toLocalTime());
-                    tblperson.setActualizadoPor(rs.getString("ActualizadoPor"));
-                    tblperson.setActualizadoFecha(rs.getDate("ActualizadoFecha") != null
-                            ? rs.getDate("ActualizadoFecha").toLocalDate() : null);
+                    tblperson.setCreadoPor(rs.getString("createby"));
+                    tblperson.setCreadoFecha(rs.getDate("createdate").toLocalDate());
+                    tblperson.setCreadoHora(rs.getTime("createtime").toLocalTime());
+                    tblperson.setActualizadoPor(rs.getString("updateeby"));
+                    tblperson.setActualizadoFecha(rs.getDate("updatebydate") != null
+                            ? rs.getDate("updatebydate").toLocalDate() : null);
                     tblperson.setActualizadoHora(
-                            rs.getTime("ActualizadoHora") != null ? rs.getTime("ActualizadoHora").toLocalTime() : null);
+                            rs.getTime("updatebytime") != null ? rs.getTime("updatebytime").toLocalTime() : null);
                     resultado.add(tblperson);
                 }
                 rs.close();
                 statement.close();
                 
-                // NO SE CIERRA LA CONEXIÓN
+                // NO SE CIERRA LA CONEXIï¿½N
             }
         } catch (Exception e) {
             e.printStackTrace();

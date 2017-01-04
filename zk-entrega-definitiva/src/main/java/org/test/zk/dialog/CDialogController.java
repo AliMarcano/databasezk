@@ -95,7 +95,7 @@ public class CDialogController extends SelectorComposer<Component> {
             textboxci.setValue(personToModify.getStrci());
             textboxnombre.setValue(personToModify.getnombre());
             textboxapellido.setValue(personToModify.getapellido());
-            textboxtelefono.setValue(personToModify.gettelefono());
+      
             if (personToModify.getGender() == 0) {
                 datamodel.addToSelection("Femenino");
             } else {
@@ -115,7 +115,7 @@ public class CDialogController extends SelectorComposer<Component> {
         /*
          * Messagebox.show( "CI:" + textboxci.getValue() + " Nombre:" +
          * textboxnombre.getValue() + " Apellido:" + textboxapellido.getValue()
-         * + " Teléfono:" + textboxtelefono.getValue() + " Fecha:" +
+         * + " Telï¿½fono:" + textboxtelefono.getValue() + " Fecha:" +
          * dateboxfecha.getValue() + " Comentario:" +
          * textboxcomentario.getValue(), "Aceptar", Messagebox.OK,
          * Messagebox.INFORMATION); //;//
@@ -125,24 +125,24 @@ public class CDialogController extends SelectorComposer<Component> {
         personToModify.setci(textboxci.getValue());
         personToModify.setnombre(textboxnombre.getValue());
         personToModify.setapellido(textboxapellido.getValue());
-        personToModify.settelefono(textboxtelefono.getValue());
+  
         personToModify.setGender(selectboxgenero.getSelectedIndex());
         personToModify.setCumple(id);
         personToModify.setComment(textboxcomentario.getValue());
-        if ((!personToModify.getStrci().equals("")) && (!personToModify.getnombre().equals("")) && (!personToModify.getapellido().equals("")) && !personToModify.gettelefono().equals("") && personToModify.getGender()>=0 && personToModify.getCumple()!=null && !personToModify.getComment().equals("")){            
+        if ((!personToModify.getStrci().equals("")) && (!personToModify.getnombre().equals("")) && (!personToModify.getapellido().equals("")) && personToModify.getGender()>=0 && personToModify.getCumple()!=null && !personToModify.getComment().equals("")){            
         Events.echoEvent(new Event("onKek", buttonmodify, personToModify));
         windowperson.detach();                
         }else{
-            Messagebox.show("       Error, uno de los campos está vacío", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
+            Messagebox.show("       Error, uno de los campos estï¿½ vacï¿½o", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
         }
         }else{
-            Messagebox.show("       Error, fecha vacía", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
+            Messagebox.show("       Error, fecha vacï¿½a", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
         }
     }    
 
     @Listen("onClick=#buttoncancelar")
     public void onClickButtonCancelar(Event event) {
-        Messagebox.show("       Acción Cancelada", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
+        Messagebox.show("       Acciï¿½n Cancelada", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
         windowperson.detach();
     }
 }

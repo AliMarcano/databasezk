@@ -40,52 +40,51 @@ public class CTest01Controller extends SelectorComposer<Component> implements It
     Selectbox selectbox1;
     @Wire
     Selectbox selectbox2;
-    protected ListModelList<String> datamodel = new ListModelList<String>();//Modelo de Cadena, para los números
+    protected ListModelList<String> datamodel = new ListModelList<String>();//Modelo de Cadena, para los nï¿½meros
     protected ListModelList<TBLPerson> datamodelpersona = new ListModelList<TBLPerson>();//Modelo de persona    
     
-    @Listen("onClick=#buttontest02")//Prueba de modificación básica de botón
+    @Listen("onClick=#buttontest02")//Prueba de modificaciï¿½n bï¿½sica de botï¿½n
     public void onClickButtonTest02(Event event) {
-        buttontest02.setLabel("¡Mentí!");//Sólo se modifica el value del boton
+        buttontest02.setLabel("ï¿½Mentï¿½!");//Sï¿½lo se modifica el value del boton
     }
 
-    @Listen("onClick=#buttontest05")//Adición de números a datamodel
+    @Listen("onClick=#buttontest05")//Adiciï¿½n de nï¿½meros a datamodel
     public void onClickButtonTest05(Event event) {
         check = check + 1;//Se amuenta el contador
-        datamodel.add(Integer.toString(check));//Se añade al modelo
-        selectbox1.setModel(datamodel);//Se moldea la caja de selección
+        datamodel.add(Integer.toString(check));//Se aï¿½ade al modelo
+        selectbox1.setModel(datamodel);//Se moldea la caja de selecciï¿½n
         datamodel.addToSelection(Integer.toString(check));
         selectbox1.setSelectedIndex(0);
     }
 
-    @Listen("onClick=#buttontest06")//Añadir una nueva persona
+    @Listen("onClick=#buttontest06")//Aï¿½adir una nueva persona
     public void onClickButtonTest06(Event event) {
-        ci = ci + 1;//Se crean valores únicos para cada persona
+        ci = ci + 1;//Se crean valores ï¿½nicos para cada persona
         Nombre = Nombre.concat("a");
         Apellido = Apellido.concat("b");
         Telefono = Telefono - 1;
-        datamodelpersona.add(//Se crea una nueva persona con los datos únicos y se asigna al modelo de personas
+        datamodelpersona.add(//Se crea una nueva persona con los datos ï¿½nicos y se asigna al modelo de personas
                 new TBLPerson(ci, Nombre, Apellido, Integer.toString(Telefono), 1, LocalDate.parse("1995-06-28"), "Yo"));
-        selectbox2.setModel(datamodelpersona);//Se asigna el modelo a la caja de selección
-        selectbox2.setSelectedIndex(0);//Se modiica el índice
+        selectbox2.setModel(datamodelpersona);//Se asigna el modelo a la caja de selecciï¿½n
+        selectbox2.setSelectedIndex(0);//Se modiica el ï¿½ndice
         selectbox2.setItemRenderer(this);//Se renderiza el objeto
     }
 
     @Listen("onSelect=#selectbox1")
-    public void onSelectselectbox1(Event event) {//Asignación de datos al título de la ventana
+    public void onSelectselectbox1(Event event) {//Asignaciï¿½n de datos al tï¿½tulo de la ventana
         if ((selectbox1.getSelectedIndex() >= 0) && (selectbox1.getSelectedIndex() <= 3)) {
             windowtest01.setTitle(datamodel.get(selectbox1.getSelectedIndex()));
         }
     }
 
-    @Listen("onSelect=#selectbox2")//Asignación de datos al título de la ventana
+    @Listen("onSelect=#selectbox2")//Asignaciï¿½n de datos al tï¿½tulo de la ventana
     public void onSelectselectbox2(Event event) {
         TBLPerson Seleccion = datamodelpersona.get(selectbox2.getSelectedIndex());
-        windowtest01.setTitle(Seleccion.getStrci() + " " + Seleccion.getnombre() + " " + Seleccion.getapellido() + " "
-                + Seleccion.gettelefono());
+        windowtest01.setTitle(Seleccion.getStrci() + " " + Seleccion.getnombre() + " " + Seleccion.getapellido());
     }
 
     @Override
     public String render(Component arg0, TBLPerson arg1, int arg2) throws Exception {//Renderizador
-        return arg1.getnombre() + " " + arg1.getapellido() + " " + arg1.getStrci() + " " + arg1.gettelefono();
+        return arg1.getnombre() + " " + arg1.getapellido() + " " + arg1.getStrci() ;
     }
 }
