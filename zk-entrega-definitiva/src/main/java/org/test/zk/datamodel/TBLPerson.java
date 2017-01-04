@@ -5,9 +5,6 @@ import java.time.LocalDate;
 
 public class TBLPerson extends CAuditableDataModel implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5616080817635217719L;    
     protected String strci;
     protected String strnombre;
