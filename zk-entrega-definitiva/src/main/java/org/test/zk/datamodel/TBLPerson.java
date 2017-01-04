@@ -10,7 +10,7 @@ public class TBLPerson extends CAuditableDataModel implements Serializable {
     protected String strnombre;
     protected String strapellido;
 
-    protected int intgender;// 0 Mujer, 1 Hombre/
+    protected int intgender;
     protected LocalDate cumple=null;
     protected String strcomment;
 
