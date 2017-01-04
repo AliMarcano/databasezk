@@ -1,13 +1,16 @@
 package org.test.zk.manager;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.test.zk.constantes.Scons;
 import org.test.zk.dao.TBLPersonDAO;
 import org.test.zk.database.CDatabaseConnection;
+import org.test.zk.database.DBconfig;
 import org.test.zk.datamodel.TBLPerson;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
@@ -30,7 +33,16 @@ import org.zkoss.zul.Window;
 
 public class CManagerController extends SelectorComposer<Component> {
 //comentando para subir
-
+//las librerias Common fueron creadas por el señor tomas
+//la libreria de log permite seguir el proceso de un programa, 
+//los breack point y el debugger son una herramienta que nos ayuda mucho 
+//pero en produccion no se pueden usar normalmente, se puede hacer cn un debugger externo pero 
+//es de baja seguridad y pone en riesgo el servidor
+//por lo que las bitacoras o log son archivos que van guardando un registro de errores
+//pero no solo eso lo que se guarde dependera de lo que el programador requiera	
+	
+	
+	
     private static final long serialVersionUID = -1591648938821366036L;
     protected ListModelList<TBLPerson> datamodelpersona = null; //new ListModelList<TBLPerson>();
     @Wire
@@ -135,8 +147,13 @@ public class CManagerController extends SelectorComposer<Component> {
     public void onClickbuttonconnection(Event event){
         Session sesion = Sessions.getCurrent();
         if(database==null){//Si se va a conectar            
-                database = new CDatabaseConnection();//Se instancia            
-            if(database.makeConectionToDatabase()){//Si se logra conectar                
+                database = new CDatabaseConnection();//Se instancia
+                DBconfig confi = new DBconfig();
+                //obtenemos la ruta del archivo
+                String patch = Sessions.getCurrent().getWebApp().getRealPath(Scons.DIR_WEB_INF) + File.separator+ Scons.DB_CONF_DIR +File.separator;
+                
+         if( confi.loadconfig(patch+Scons.DB_CONF_FILE)){
+            if(database.makeConectionToDatabase(confi)){//Si se logra conectar                
                 sesion.setAttribute(dbkey, database);//Se crea la sesi�n
                 buttonconnection.setLabel("Desconectar");//Se cambia el contexto                
                 Messagebox.show("       �Conexi�n exitosa!.", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);//Mensaje de exito
@@ -144,6 +161,10 @@ public class CManagerController extends SelectorComposer<Component> {
             }else{//sino 
                 Messagebox.show("       �Conexi�n fallida!.", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);//Mensaje de fracaso
             }
+          }
+          else{
+        	  Messagebox.show("error al leer el archivo");
+          }
         }else{//Si se va a desconectar
          if (database!=null){//Si la variable no es nula
              sesion.setAttribute(dbkey, null);//Se limpia la sesi�n

@@ -10,5 +10,9 @@
 		<value>zk-entrega-definitiva</value>
 	</preference>
 	-->
+	<listener>
 	
+		<listener-class>org.test.zk.subsystem.SubSystemEvent</listener-class>
+	
+	</listener>
 </zk>

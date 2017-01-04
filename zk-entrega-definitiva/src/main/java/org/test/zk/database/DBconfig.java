@@ -1,6 +1,10 @@
 package org.test.zk.database;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.Serializable;
+import java.util.Properties;
+
 
 public class DBconfig implements Serializable {
 
@@ -30,6 +34,35 @@ public class DBconfig implements Serializable {
 
 	public boolean loadconfig(String runningPatch){// este metodo es el que permite ler el archivo de los datos de la connec
 		boolean result=false;
+		
+		try{
+			File configfile = new File( runningPatch );
+			if(configfile.exists()){
+				
+				Properties datos= new Properties();
+				FileInputStream input = new FileInputStream(configfile);
+				
+				datos.loadFromXML(input);//esta linea lee el archivo
+				
+				this.Driver = (String) datos.getProperty("driver");
+				this.Prefix = datos.getProperty("prefix");
+				this.Host = datos.getProperty("host");
+				this.Port = datos.getProperty("port");
+				this.User = datos.getProperty("user");
+				this.Password = datos.getProperty("password");
+				this.Database = datos.getProperty("database");
+				
+				
+				
+				input.close();//cerrar el stream
+				result = true;
+			}else{
+				System.out.println("error al cargar el archivo");
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return result;
 		

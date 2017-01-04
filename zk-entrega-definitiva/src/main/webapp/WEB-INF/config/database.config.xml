@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.son.com/dtd/properties.dtd">
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>data base files</comment>
 <entry key="driver">com.mysql.jdbc.Driver</entry>
@@ -9,5 +9,4 @@
 <entry key="user">root</entry>
 <entry key="password">lolisparatodos</entry>
 <entry key="database">datos</entry>
-
 </properties>
