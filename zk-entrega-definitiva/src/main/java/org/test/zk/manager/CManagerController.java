@@ -29,10 +29,8 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 public class CManagerController extends SelectorComposer<Component> {
+//comentando para subir
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -1591648938821366036L;
     protected ListModelList<TBLPerson> datamodelpersona = null; //new ListModelList<TBLPerson>();
     @Wire
@@ -143,7 +141,7 @@ public class CManagerController extends SelectorComposer<Component> {
                 buttonconnection.setLabel("Desconectar");//Se cambia el contexto                
                 Messagebox.show("       �Conexi�n exitosa!.", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);//Mensaje de exito
                 Events.echoEvent("onClick", buttoncargar, null);
-            }else{//sino
+            }else{//sino 
                 Messagebox.show("       �Conexi�n fallida!.", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);//Mensaje de fracaso
             }
         }else{//Si se va a desconectar
