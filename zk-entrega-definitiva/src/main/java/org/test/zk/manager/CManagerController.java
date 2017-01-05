@@ -31,6 +31,8 @@ import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
+import commonlibs.extendedlogger.CExtendedLogger;
+
 public class CManagerController extends SelectorComposer<Component> {
 //comentando para subir
 //las librerias Common fueron creadas por el señor tomas
@@ -151,9 +153,13 @@ public class CManagerController extends SelectorComposer<Component> {
                 DBconfig confi = new DBconfig();
                 //obtenemos la ruta del archivo
                 String patch = Sessions.getCurrent().getWebApp().getRealPath(Scons.DIR_WEB_INF) + File.separator+ Scons.DB_CONF_DIR +File.separator;
-                
-         if( confi.loadconfig(patch+Scons.DB_CONF_FILE)){
-            if(database.makeConectionToDatabase(confi)){//Si se logra conectar                
+                CExtendedLogger webappLogger = (CExtendedLogger) Sessions.getCurrent().getWebApp().getAttribute(Scons._Webapp_Logger_App_Attribute_Key);
+         if( confi.loadConfig(patch+Scons.DB_CONF_FILE,webappLogger,null)){//nulo por que en este momento no se necesita
+            if(database.makeConnectionToDB(confi,webappLogger,null)){//Si se logra conectar  
+            	
+            	//guardamos la conf en database
+            	database.setDBConnectionConfig(confi, webappLogger, null);
+            	
                 sesion.setAttribute(dbkey, database);//Se crea la sesi�n
                 buttonconnection.setLabel("Desconectar");//Se cambia el contexto                
                 Messagebox.show("       �Conexi�n exitosa!.", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);//Mensaje de exito
@@ -167,9 +173,11 @@ public class CManagerController extends SelectorComposer<Component> {
           }
         }else{//Si se va a desconectar
          if (database!=null){//Si la variable no es nula
+        	 //obtenemos el loger de webapp
+        	 CExtendedLogger webappLogger = (CExtendedLogger) Sessions.getCurrent().getWebApp().getAttribute(Scons._Webapp_Logger_App_Attribute_Key);
              sesion.setAttribute(dbkey, null);//Se limpia la sesi�n
              buttonconnection.setLabel("Conectar");//Se cambia el contexto
-             if(database.CloseConnectionToDatabase()){//Se cierra la conexi�n
+             if(database.closeConnectionToDB(webappLogger, null)){//Se cierra la conexi�n
                  database=null;
                  Messagebox.show("       �Conexi�n cerrada!.", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
                  listboxpersons.setModel((ListModelList<?>) null);//Se limpia la listbox

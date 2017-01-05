@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
+import commonlibs.commonclasses.CLanguage;
+import commonlibs.extendedlogger.CExtendedLogger;
+
 
 public class DBconfig implements Serializable {
 
@@ -32,41 +35,64 @@ public class DBconfig implements Serializable {
 		
 	}
 
-	public boolean loadconfig(String runningPatch){// este metodo es el que permite ler el archivo de los datos de la connec
-		boolean result=false;
-		
-		try{
-			File configfile = new File( runningPatch );
-			if(configfile.exists()){
-				
-				Properties datos= new Properties();
-				FileInputStream input = new FileInputStream(configfile);
-				
-				datos.loadFromXML(input);//esta linea lee el archivo
-				
-				this.Driver = (String) datos.getProperty("driver");
-				this.Prefix = datos.getProperty("prefix");
-				this.Host = datos.getProperty("host");
-				this.Port = datos.getProperty("port");
-				this.User = datos.getProperty("user");
-				this.Password = datos.getProperty("password");
-				this.Database = datos.getProperty("database");
-				
-				
-				
-				input.close();//cerrar el stream
-				result = true;
-			}else{
-				System.out.println("error al cargar el archivo");
-			}
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-		
-	}
+    public boolean loadConfig( String strConfigPath, CExtendedLogger localLogger, CLanguage localLanguage ) {
+        
+        boolean bResult = false;
+        
+        try {
+
+            File configFilePath = new File( strConfigPath );
+            
+            if ( configFilePath.exists() ) {
+
+                Properties configsData = new Properties();
+                
+                FileInputStream inputStream = new FileInputStream( configFilePath );
+                
+                configsData.loadFromXML( inputStream );
+                
+                localLogger.logMessage( "1" , CLanguage.translateIf( localLanguage, "Readed config values from file [%s]" ,  strConfigPath ) );
+
+                this.Driver = (String) configsData.get( "driver" );
+                localLogger.logMessage( "1" , CLanguage.translateIf( localLanguage, "Loaded value for [%s] [%s]", "driver",  this.Driver ) );
+                this.Prefix = (String) configsData.get( "prefix" );
+                localLogger.logMessage( "1" , CLanguage.translateIf( localLanguage, "Loaded value for [%s] [%s]", "prefix",  this.Prefix ) );
+                this.Host = (String) configsData.get( "host" );
+                localLogger.logMessage( "1" , CLanguage.translateIf( localLanguage, "Loaded value for [%s] [%s]", "host",  this.Host ) );
+                this.Port = (String) configsData.get( "port" );
+                localLogger.logMessage( "1" , CLanguage.translateIf( localLanguage, "Loaded value for [%s] [%s]", "port", this.Port ) );
+                this.Database = (String) configsData.get( "database" );
+                localLogger.logMessage( "1" , CLanguage.translateIf( localLanguage, "Loaded value for [%s] [%s]", "database",  this.Database ) );
+                this.User = (String) configsData.get( "user" );
+                localLogger.logMessage( "1" , CLanguage.translateIf( localLanguage, "Loaded value for [%s] [%s]", "user",  this.User ) );
+                this.Password = (String) configsData.get( "password" );
+                localLogger.logMessage( "1" , CLanguage.translateIf( localLanguage, "Loaded value for [%s] [%s]", "password",  this.Password ) );
+                
+                inputStream.close();                
+                
+                bResult = true;
+                
+            }
+            else if ( localLogger != null ) {
+                //contara los errores hasta el 1021
+                localLogger.logError( "-1001" , CLanguage.translateIf( localLanguage, "Config file in path [%s] not found" ,  strConfigPath ) );
+                
+            }
+            
+        }
+        catch ( Exception Ex ) {
+            
+            if ( localLogger != null ) {
+                //contara las excepciones desde el 1022 
+                localLogger.logException( "-1021" , Ex.getMessage(), Ex );
+                
+            }
+            
+        }
+        
+        return bResult;
+        
+}
 	
 	public String getDriver() {
 		return Driver;
