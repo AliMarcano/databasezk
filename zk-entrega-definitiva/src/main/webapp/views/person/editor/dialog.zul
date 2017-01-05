@@ -1,6 +1,6 @@
 <?page title="Person" contentType="text/html;charset=UTF-8"?>
 <zk>
-    <window id="windowperson" xmlns:w="client" apply="org.test.zk.dialog.CDialogController" title="Persona" border="normal" hflex="min">
+    <window id="windowperson" xmlns:w="client" apply="org.test.zk.person.dialog.CDialogController" title="Persona" border="normal" hflex="min">
         <vlayout width="355px">
             <grid hflex="min">
                 <rows>

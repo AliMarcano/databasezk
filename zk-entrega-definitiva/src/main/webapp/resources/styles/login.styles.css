@@ -1,0 +1,7 @@
+.warn{
+	color:red;
+}
+
+.gridLayoutNoBorder tr.z-row td.z-row-inner, tr.z-row .z-cell, div.z-grid{
+	border:none;
+}

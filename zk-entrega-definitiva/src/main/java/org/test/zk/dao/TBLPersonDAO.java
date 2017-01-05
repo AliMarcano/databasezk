@@ -48,7 +48,7 @@ public class TBLPersonDAO {
 
     public static boolean deleteData(final CDatabaseConnection databaseConnection, final String CI) {
         boolean bresultado = false;
-        final String sqlQuerry = "DELETE FROM persona WHERE idpersona ='"+CI+"'";
+        final String sqlQuerry = "Delete From persona Where idpersona ='"+CI+"'";
         try{
             if (databaseConnection != null && databaseConnection.getDBConnection() != null) {
                 Statement statement = databaseConnection.getDBConnection().createStatement();
@@ -101,7 +101,7 @@ public class TBLPersonDAO {
 
     public static boolean updateData(final CDatabaseConnection databaseConnection, final TBLPerson tblperson) {
         boolean bresultado = false;
-        final String sqlQuerry = "Update persona Set idpersona='"+tblperson.getStrci()+"',nombre='"+tblperson.getnombre()+"',apellido='"+tblperson.getapellido()+"',genero="+tblperson.getGender()+",fecha='"+tblperson.getCumple()+"',Comentario='"+tblperson.getComment()+"',updateeby='tester',updatebydate='"+LocalDate.now().toString()+"',updatebytime='"+LocalTime.now().toString()+"' Where idpersona ='"+tblperson.getStrci()+"'";
+        final String sqlQuerry = "Update persona Set idpersona='"+tblperson.getStrci()+"',nombre='"+tblperson.getnombre()+"',apellido='"+tblperson.getapellido()+"',genero="+tblperson.getGender()+",fecha='"+tblperson.getCumple()+"',comentario='"+tblperson.getComment()+"',updateeby='tester',updatebydate='"+LocalDate.now().toString()+"',updatebytime='"+LocalTime.now().toString()+"' Where idpersona ='"+tblperson.getStrci()+"'";
         try {
             if (databaseConnection != null && databaseConnection.getDBConnection() != null) {//Si se est� conectado a la bd
                 Statement statement = databaseConnection.getDBConnection().createStatement();//Se crea el statement para comm con mysql

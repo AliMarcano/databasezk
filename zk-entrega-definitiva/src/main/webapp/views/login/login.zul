@@ -1,0 +1,36 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?link rel="stylesheet" type="text/css" href="resources/styles/login.styles.css"?>
+<zk>
+  <window id="frmlogin"  title="login inserte su email y contraceña" border="normal" hflex="min" >
+   <style src="login.styles.css"/>
+   <vbox hflex="min" align="center">
+   	<grid sclass="gridLayoutNoBorder" hflex="min">
+   	 <columns>
+   	 	<column hflex="min" align="right"/>
+   	 	<column/>
+   	 </columns>
+   	 
+	 <rows>
+	  <row>
+	   <label value="Username:"/>
+	   <textbox constraint="no empty" id="edUserName" width="200px" />  
+	  </row>
+	  
+	  <row>
+	   <label value="Password:"/>
+	   <textbox constraint="no empty" id="edPassword" type="password" width="200px"/>
+	  </row>
+	 
+	 </rows>
+   	</grid>
+   	
+   	<label id="lbMessage" sclass="warn" value="&#160;" />
+    
+    <button id="btnLogin" label="login" />
+    
+    <label id="lbForgetPassword" value="forgot you password?" style="cursor:hand:cursor:pointer"/>
+   	
+   </vbox>
+  
+  </window>
+</zk>

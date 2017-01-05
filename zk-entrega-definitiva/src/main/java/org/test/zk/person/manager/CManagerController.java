@@ -1,4 +1,4 @@
-package org.test.zk.manager;
+package org.test.zk.person.manager;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -199,7 +199,7 @@ public class CManagerController extends SelectorComposer<Component> {
         arg.put("buttonadd", buttonadd);
         arg.put("buttonmodify", buttonmodify);
         arg.put("ModifyModel", datamodelpersona);
-        Window win = (Window) Executions.createComponents("/dialog.zul", null,arg);
+        Window win = (Window) Executions.createComponents("/views/person/editor/dialog.zul", null,arg);
         win.doModal();
     }    
     @Listen("onClick=#buttonmodify")
@@ -212,7 +212,7 @@ public class CManagerController extends SelectorComposer<Component> {
             arg.put("buttonadd", buttonadd);
             arg.put("buttonmodify", buttonmodify);
             arg.put("PersonaCi", person.getStrci());
-            Window win = (Window) Executions.createComponents("/dialog.zul", null , arg);
+            Window win = (Window) Executions.createComponents("/views/person/editor/dialog.zul", null , arg);
             win.doModal();                        
         }else{ //sino
             Messagebox.show("       Error, no hay selecci�n.", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
@@ -237,7 +237,8 @@ public class CManagerController extends SelectorComposer<Component> {
             listboxpersons.setModel(datamodelpersona);
             listboxpersons.setItemRenderer((new MyRenderer()));
             Messagebox.show("       �Lista agregada!.", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
-            Events.echoEvent("onClick", buttoncargar, null);
+            //hacemos que se refresque la vista
+            Events.echoEvent( new Event("onClick", buttoncargar));
         }        
     }
 
@@ -260,12 +261,13 @@ public class CManagerController extends SelectorComposer<Component> {
                             public void onEvent(Event evt) throws InterruptedException {
                                 if (evt.getName().equals("onOK")) {//Si la respuesta es s�
                                     alert("�Elementos borrados!");//Se da un aviso
-                                    while (selecteditems.iterator().hasNext()) {//mientras haya elementos seleccionados
+                                    //mientras haya elementos seleccionados
                                         TBLPerson persona = selecteditems.iterator().next();//se toma el elemento
                                         //selecteditems.iterator().remove();
                                         TBLPersonDAO.deleteData(database, persona.getStrci());
-                                        datamodelpersona.remove(persona);//Se destruye
-                                    }//fin mientras
+                                        //hacemos que se refresque la vista
+                                        Events.echoEvent("onClick", buttoncargar, null);
+                                   
                                 }//fin si
                             }
                         });

@@ -1,4 +1,4 @@
-package org.test.zk.dialog;
+package org.test.zk.person.dialog;
 
 import java.time.LocalDate;
 import java.util.HashMap;
