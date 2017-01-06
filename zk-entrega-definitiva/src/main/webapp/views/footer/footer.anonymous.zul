@@ -2,7 +2,7 @@
 <zk>
 	<div hflex="1" vflex="1" sclass="footer">
 	 <vbox hflex="1" vflex="1" align="center">
-	 	Copyright Corp. Inc.
+	 	<label value="Copyright Corp. Inc."/>
 	 	<a href="http://www.subweb.com">http://www.subweb.com</a>
 	 </vbox>
 	</div>

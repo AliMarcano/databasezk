@@ -2,3 +2,6 @@
 <logs>
 <logMark Type="Init" Date="05/01/2017" Time="17:41:21"/>
 <Log InstanceID="WebApp:MainLogger" LogType="Message" Level="INFO" Date="05/01/2017" Time="17:41:21" LoggerName="webapplogger" Sequence="1" ThreadID="1" ThreadName="main" PackageName="org.test.zk.subsystem" ClassName="SubSystemEvent" MethodName="init" Line="83" Code="1" Message="Webapp logger loaded and configured [webapplogger]."/>
+<Log InstanceID="WebApp:MainLogger" LogType="Message" Level="INFO" Date="05/01/2017" Time="18:44:11" LoggerName="webapplogger" Sequence="2" ThreadID="14" ThreadName="ShutdownMonitor" PackageName="org.test.zk.subsystem" ClassName="SubSystemEvent" MethodName="cleanup" Line="48" Code="1" Message="Webapp endig now"/>
+<logMark Type="End" Date="05/01/2017" Time="18:44:11"/>
+</logs>
