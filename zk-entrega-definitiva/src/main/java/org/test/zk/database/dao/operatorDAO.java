@@ -64,7 +64,7 @@ public class operatorDAO {
 		
 		
 	}
-
+//ss
     public static boolean deleteData(final CDatabaseConnection databaseConnection, final String id, CExtendedLogger loger,CLanguage lenguaje) {
         boolean resul = false;
         final String sqlQuerry = "Delete From TBLoperador Where id ='"+id+"'";
