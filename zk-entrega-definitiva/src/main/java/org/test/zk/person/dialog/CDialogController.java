@@ -4,9 +4,10 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.test.zk.dao.TBLPersonDAO;
+import org.test.zk.constantes.Scons;
 import org.test.zk.database.CDatabaseConnection;
-import org.test.zk.datamodel.TBLPerson;
+import org.test.zk.database.dao.PersonDAO;
+import org.test.zk.database.datamodel.TBLPerson;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
@@ -26,12 +27,13 @@ import org.zkoss.zul.Selectbox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import commonlibs.commonclasses.CLanguage;
+import commonlibs.extendedlogger.CExtendedLogger;
+
 public class CDialogController extends SelectorComposer<Component> {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8977563222707532143L;
+
     @Wire
     Window windowperson;
     @Wire
@@ -73,9 +75,14 @@ public class CDialogController extends SelectorComposer<Component> {
     TBLPerson personToModify = (TBLPerson) execution.getArg().get("personToModify");
     protected CDatabaseConnection database = null;
     public static final String dbkey = "database";
+    protected CExtendedLogger controllogger=null;
+    protected CLanguage controllanguaje=null;
+    
     public void doAfterCompose(Component comp) {
         try {
             super.doAfterCompose(comp);
+            
+            controllogger = (CExtendedLogger) Sessions.getCurrent().getWebApp().getAttribute(Scons._Webapp_Logger_App_Attribute_Key);
             dateboxfecha.setFormat("dd-MM-yyyy");
             datamodel.add("Femenino");
             datamodel.add("Masculino");
@@ -86,7 +93,7 @@ public class CDialogController extends SelectorComposer<Component> {
             if(sesion.getAttribute(dbkey)instanceof CDatabaseConnection){
                 database=(CDatabaseConnection) sesion.getAttribute(dbkey);
                 if(execution.getArg().get("PersonaCi") instanceof String){
-                    personToModify = TBLPersonDAO.loadData(database, (String) execution.getArg().get("PersonaCi"));
+                    personToModify = PersonDAO.loadData(database, (String) execution.getArg().get("PersonaCi"),controllogger,controllanguaje);
                 }
             }            
             //TBLPerson personToModify = (TBLPerson) execution.getArg().get("personToModify");
@@ -120,6 +127,15 @@ public class CDialogController extends SelectorComposer<Component> {
          * textboxcomentario.getValue(), "Aceptar", Messagebox.OK,
          * Messagebox.INFORMATION); //;//
          */
+    	/*
+    	 * este metodo de roger es diferente arreglalo a la forma mas corta de 
+    	 * los videos ya que a mi parecer es poco rentable ya que se agragand emacias
+    	 * lineas en esta forma de acerlo y de paso la insercion no se hace al 
+    	 * aceptar si no cuando se llama al evento en Cmanagercontroler decidiendo de
+    	 * donde viene con un semaforo
+    	 * 
+    	 * */
+    	
         if(dateboxfecha.getValue()!=null){
         LocalDate id = new java.sql.Date(dateboxfecha.getValue().getTime()).toLocalDate();
         personToModify.setci(textboxci.getValue());

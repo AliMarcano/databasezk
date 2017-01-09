@@ -1,4 +1,4 @@
-package org.test.zk.person.manager;
+package org.test.zk.database.config.datamodel;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.test.zk.constantes.Scons;
-import org.test.zk.dao.TBLPersonDAO;
 import org.test.zk.database.CDatabaseConnection;
 import org.test.zk.database.DBconfig;
-import org.test.zk.datamodel.TBLPerson;
+import org.test.zk.database.dao.PersonDAO;
+import org.test.zk.database.datamodel.TBLPerson;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
@@ -31,6 +31,7 @@ import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
+import commonlibs.commonclasses.CLanguage;
 import commonlibs.extendedlogger.CExtendedLogger;
 
 public class CManagerController extends SelectorComposer<Component> {
@@ -64,6 +65,9 @@ public class CManagerController extends SelectorComposer<Component> {
     public static final String dbkey = "database";  
     protected Execution execution = Executions.getCurrent();
     protected CDatabaseConnection database = null;
+    protected CExtendedLogger controllogger=null;
+    protected CLanguage controllanguaje=null;
+    
     public class MyRenderer implements ListitemRenderer<TBLPerson> {    
         @Override
         public void render(Listitem listitem, TBLPerson persona, int arg2) throws Exception {
@@ -79,10 +83,7 @@ public class CManagerController extends SelectorComposer<Component> {
                 listitem.appendChild(cell);// Se a�ade la celda a la lista
                 cell = new Listcell();// Se crea una nueva celda
                 cell.setLabel(persona.getapellido());// Se le asigna un valor a
-                                                     // la// celda
-          
 
-                                                     // la celda
                 listitem.appendChild(cell);// Se a�ade la celda a la lista                
                 cell = new Listcell();// Se crea una nueva celda
                 cell.setLabel(persona.getGender() == 0 ? "Femenino" : "Masculino");// Se le asigna un valor a
@@ -125,8 +126,11 @@ public class CManagerController extends SelectorComposer<Component> {
             listboxpersons.setModel(datamodelpersona);
             listboxpersons.setItemRenderer(new MyRenderer());
             Session sesion = Sessions.getCurrent();//Se crea variable sesion
+            //obtenemos el loger del webapp y guardamos una referencia eb la variable
+            controllogger = (CExtendedLogger) Sessions.getCurrent().getWebApp().getAttribute(Scons._Webapp_Logger_App_Attribute_Key);
             if(sesion.getAttribute(dbkey)instanceof CDatabaseConnection){
-                database=(CDatabaseConnection) sesion.getAttribute(dbkey);
+                //recuperamos la session anterior
+            	database=(CDatabaseConnection) sesion.getAttribute(dbkey);
                 buttonconnection.setLabel("Desconectar");
             }
         } catch (Exception e) {
@@ -139,7 +143,7 @@ public class CManagerController extends SelectorComposer<Component> {
         Session sesion = Sessions.getCurrent();//Se recupera la sesi�n
         if(sesion.getAttribute(dbkey)instanceof CDatabaseConnection){//Si se est� conectado
             database=(CDatabaseConnection) sesion.getAttribute(dbkey);//Se asigna la direcci�n de la bd
-            List<TBLPerson>listData=TBLPersonDAO.searchData(database);//Se llama al m�todo de b�squeda y se asigna a la lista de persona            
+            List<TBLPerson>listData=PersonDAO.searchData(database, controllogger, controllanguaje);//Se llama al m�todo de b�squeda y se asigna a la lista de persona            
             datamodelpersona=new ListModelList<TBLPerson>(listData);//Se crea un nuevo modelo con la lista de personas
             listboxpersons.setModel(datamodelpersona);//se le asigna al listbox
             listboxpersons.setItemRenderer((new MyRenderer()));
@@ -148,17 +152,19 @@ public class CManagerController extends SelectorComposer<Component> {
     @Listen("onClick=#buttonconnection")    
     public void onClickbuttonconnection(Event event){
         Session sesion = Sessions.getCurrent();
+        //obtenemos el loger del objeto webapp
+        
         if(database==null){//Si se va a conectar            
                 database = new CDatabaseConnection();//Se instancia
                 DBconfig confi = new DBconfig();
                 //obtenemos la ruta del archivo
                 String patch = Sessions.getCurrent().getWebApp().getRealPath(Scons.DIR_WEB_INF) + File.separator+ Scons.DB_CONF_DIR +File.separator;
-                CExtendedLogger webappLogger = (CExtendedLogger) Sessions.getCurrent().getWebApp().getAttribute(Scons._Webapp_Logger_App_Attribute_Key);
-         if( confi.loadConfig(patch+Scons.DB_CONF_FILE,webappLogger,null)){//nulo por que en este momento no se necesita
-            if(database.makeConnectionToDB(confi,webappLogger,null)){//Si se logra conectar  
+                
+         if( confi.loadConfig(patch+Scons.DB_CONF_FILE,controllogger, controllanguaje)){//nulo por que en este momento no se necesita
+            if(database.makeConnectionToDB(confi,controllogger,controllanguaje)){//Si se logra conectar  
             	
             	//guardamos la conf en database
-            	database.setDBConnectionConfig(confi, webappLogger, null);
+            	database.setDBConnectionConfig(confi, controllogger, null);
             	
                 sesion.setAttribute(dbkey, database);//Se crea la sesi�n
                 buttonconnection.setLabel("Desconectar");//Se cambia el contexto                
@@ -174,10 +180,10 @@ public class CManagerController extends SelectorComposer<Component> {
         }else{//Si se va a desconectar
          if (database!=null){//Si la variable no es nula
         	 //obtenemos el loger de webapp
-        	 CExtendedLogger webappLogger = (CExtendedLogger) Sessions.getCurrent().getWebApp().getAttribute(Scons._Webapp_Logger_App_Attribute_Key);
+        	 
              sesion.setAttribute(dbkey, null);//Se limpia la sesi�n
              buttonconnection.setLabel("Conectar");//Se cambia el contexto
-             if(database.closeConnectionToDB(webappLogger, null)){//Se cierra la conexi�n
+             if(database.closeConnectionToDB(controllogger, null)){//Se cierra la conexi�n
                  database=null;
                  Messagebox.show("       �Conexi�n cerrada!.", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
                  listboxpersons.setModel((ListModelList<?>) null);//Se limpia la listbox
@@ -228,11 +234,11 @@ public class CManagerController extends SelectorComposer<Component> {
             datamodelpersona.add(index, personToModif);
             listboxpersons.setModel(datamodelpersona);
             listboxpersons.setItemRenderer((new MyRenderer()));
-            TBLPersonDAO.updateData(database, personToModif);
+            PersonDAO.updateData(database, personToModif,controllogger,controllanguaje);
             Messagebox.show("       �Persona modificada!.", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION);
             Events.echoEvent("onClick", buttoncargar, null);
         }else{
-            TBLPersonDAO.insertData(database, personToModif);
+            PersonDAO.insertData(database, personToModif,controllogger,controllanguaje);
             datamodelpersona.add(personToModif);
             listboxpersons.setModel(datamodelpersona);
             listboxpersons.setItemRenderer((new MyRenderer()));
@@ -264,7 +270,7 @@ public class CManagerController extends SelectorComposer<Component> {
                                     //mientras haya elementos seleccionados
                                         TBLPerson persona = selecteditems.iterator().next();//se toma el elemento
                                         //selecteditems.iterator().remove();
-                                        TBLPersonDAO.deleteData(database, persona.getStrci());
+                                        PersonDAO.deleteData(database, persona.getStrci(),controllogger,controllanguaje);
                                         //hacemos que se refresque la vista
                                         Events.echoEvent("onClick", buttoncargar, null);
                                    

@@ -1,13 +1,10 @@
-package org.test.zk.datamodel;
+package org.test.zk.database.datamodel;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class CAuditableDataModel implements IAuditableDataModel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 3960765858795905937L;
     protected String strCreadoPor = null;
     protected LocalDate CreadoFecha = null;

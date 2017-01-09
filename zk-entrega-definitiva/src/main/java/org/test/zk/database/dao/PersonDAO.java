@@ -1,6 +1,6 @@
-package org.test.zk.dao;
+package org.test.zk.database.dao;
 
-import java.sql.*;
+
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.test.zk.database.CDatabaseConnection;
-import org.test.zk.datamodel.TBLPerson;
+import org.test.zk.database.datamodel.TBLPerson;
 
-public class TBLPersonDAO {
-    public static TBLPerson loadData(final CDatabaseConnection databaseConnection, final String CI) {
+import commonlibs.commonclasses.CLanguage;
+import commonlibs.extendedlogger.CExtendedLogger;
+
+public class PersonDAO {
+    public static TBLPerson loadData(final CDatabaseConnection databaseConnection, final String CI, CExtendedLogger loger,CLanguage lenguaje) {
         TBLPerson resultado = null;
         try {
             if (databaseConnection != null && databaseConnection.getDBConnection() != null) {
@@ -41,12 +44,15 @@ public class TBLPersonDAO {
                 // NO SE CIERRA LA CONEXI�N
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            if(loger!=null){
+            	loger.logException("-1021", e.getMessage(),e);
+            	
+            }
         }
         return resultado;
     }
 
-    public static boolean deleteData(final CDatabaseConnection databaseConnection, final String CI) {
+    public static boolean deleteData(final CDatabaseConnection databaseConnection, final String CI, CExtendedLogger loger,CLanguage lenguaje) {
         boolean bresultado = false;
         final String sqlQuerry = "Delete From persona Where idpersona ='"+CI+"'";
         try{
@@ -62,15 +68,21 @@ public class TBLPersonDAO {
                 try{
                     databaseConnection.getDBConnection().rollback();
                 }catch(Exception ex){
-                    ex.printStackTrace();
+                	if(loger!=null){
+                    	loger.logException("-1021", e.getMessage(),e);
+                    	
+                    }
                 }
             }
-            e.printStackTrace();
+            if(loger!=null){
+            	loger.logException("-1021", e.getMessage(),e);
+            	
+            }
         }
         return bresultado;
     }
 
-    public static boolean insertData(final CDatabaseConnection databaseConnection, final TBLPerson tblperson) {
+    public static boolean insertData(final CDatabaseConnection databaseConnection, final TBLPerson tblperson, CExtendedLogger loger,CLanguage lenguaje) {
         boolean bresultado = false;//Validaci�n
         final String sqlQuerry = "'"+tblperson.getStrci() + "','" + tblperson.getnombre() + "','" + tblperson.getapellido()//Ahorro de tiempo
                 + "','"+ tblperson.getGender() + "','" + tblperson.getCumple() + "','"
@@ -91,15 +103,21 @@ public class TBLPersonDAO {
                 try{
                     databaseConnection.getDBConnection().rollback();
                 }catch(Exception ex){
-                    ex.printStackTrace();
+                	if(loger!=null){
+                    	loger.logException("-1021", e.getMessage(),e);
+                    	
+                    }
                 }
             }
-            e.printStackTrace();
+            if(loger!=null){
+            	loger.logException("-1021", e.getMessage(),e);
+            	
+            }
         }
         return bresultado;//Se da respuesta
     }
 
-    public static boolean updateData(final CDatabaseConnection databaseConnection, final TBLPerson tblperson) {
+    public static boolean updateData(final CDatabaseConnection databaseConnection, final TBLPerson tblperson, CExtendedLogger loger,CLanguage lenguaje) {
         boolean bresultado = false;
         final String sqlQuerry = "Update persona Set idpersona='"+tblperson.getStrci()+"',nombre='"+tblperson.getnombre()+"',apellido='"+tblperson.getapellido()+"',genero="+tblperson.getGender()+",fecha='"+tblperson.getCumple()+"',comentario='"+tblperson.getComment()+"',updateeby='tester',updatebydate='"+LocalDate.now().toString()+"',updatebytime='"+LocalTime.now().toString()+"' Where idpersona ='"+tblperson.getStrci()+"'";
         try {
@@ -115,15 +133,21 @@ public class TBLPersonDAO {
                 try{
                     databaseConnection.getDBConnection().rollback();
                 }catch(Exception ex){
-                    ex.printStackTrace();
+                	if(loger!=null){
+                    	loger.logException("-1021", e.getMessage(),e);
+                    	
+                    }
                 }
             }
-            e.printStackTrace();
+            if(loger!=null){
+            	loger.logException("-1021", e.getMessage(),e);
+            	
+            }
         }
         return bresultado;
     }
 
-    public static List<TBLPerson> searchData(final CDatabaseConnection databaseConnection) {
+    public static List<TBLPerson> searchData(final CDatabaseConnection databaseConnection, CExtendedLogger loger,CLanguage lenguaje) {
         List<TBLPerson> resultado = new ArrayList<TBLPerson>();
         try {
             if (databaseConnection != null && databaseConnection.getDBConnection() != null) {
@@ -154,7 +178,10 @@ public class TBLPersonDAO {
                 // NO SE CIERRA LA CONEXI�N
             }
         } catch (Exception e) {
-            e.printStackTrace();
+        	if(loger!=null){
+            	loger.logException("-1021", e.getMessage(),e);
+            	
+            }
         }
         return resultado;
     }
