@@ -75,7 +75,7 @@ public class PersonDAO {
                 }
             }
             if(loger!=null){
-            	loger.logException("-1021", e.getMessage(),e);
+            	loger.logException("-1022", e.getMessage(),e);
             	
             }
         }
@@ -110,7 +110,7 @@ public class PersonDAO {
                 }
             }
             if(loger!=null){
-            	loger.logException("-1021", e.getMessage(),e);
+            	loger.logException("-1022", e.getMessage(),e);
             	
             }
         }
@@ -140,7 +140,7 @@ public class PersonDAO {
                 }
             }
             if(loger!=null){
-            	loger.logException("-1021", e.getMessage(),e);
+            	loger.logException("-1022", e.getMessage(),e);
             	
             }
         }

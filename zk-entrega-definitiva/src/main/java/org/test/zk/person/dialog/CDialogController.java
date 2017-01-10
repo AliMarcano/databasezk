@@ -113,7 +113,10 @@ public class CDialogController extends SelectorComposer<Component> {
             }           
             textboxcomentario.setValue(personToModify.getComment());            
         } catch (Exception e) {
-            e.printStackTrace();
+            if(controllogger!=null){
+            	controllogger.logException("-1021", e.getMessage(),e);
+            	
+            }
         }
     }
 

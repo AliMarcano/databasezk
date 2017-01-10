@@ -10,7 +10,7 @@
 			<hbox hflex="1" vflex="1" align="center" pack="center" spacing="20px">
 			
 				<vlayout>
-					<include id="includeCenterContent" src="/views/login/login.zul"/>
+					<include id="includeCenterContent" src="views/login/login.zul"/>
 				</vlayout>
 			</hbox>	
 		</center>

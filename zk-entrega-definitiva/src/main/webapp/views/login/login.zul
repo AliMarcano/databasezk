@@ -1,7 +1,7 @@
 <?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 <?link rel="stylesheet" type="text/css" href="resources/styles/login.styles.css"?>
 <zk>
-  <window id="windowlogin"  title="login inserte su email y contraceña" border="normal" hflex="min" >
+  <window id="windowlogin" apply="org.test.zk.login.controller.logincontroller"  title="login inserte su nombre de operador y contraceña" border="normal" hflex="min" >
    <style src="login.styles.css"/>
    <vbox hflex="min" align="center">
    	<grid sclass="gridLayoutNoBorder" hflex="min">
@@ -12,8 +12,8 @@
    	 
 	 <rows>
 	  <row>
-	   <label value="Username:"/>
-	   <textbox constraint="no empty" id="TuserName" width="200px" />  
+	   <label value="Operator:"/>
+	   <textbox constraint="no empty" id="Tuser" width="200px" />  
 	  </row>
 	  
 	  <row>
@@ -24,11 +24,11 @@
 	 </rows>
    	</grid>
    	
-   	<label id="labeMessage" sclass="warn" value="&#160;" />
+   	<label id="LMessage" sclass="warn" value="&#160;" />
     
     <button id="BLogin" label="login" />
     
-    <label id="labeForgetPassword" value="forgot you password?" style="cursor:hand:cursor:pointer"/>
+    <label id="LabeForgetPassword" value="forgot you password?" style="cursor:hand:cursor:pointer"/>
    	
    </vbox>
   

@@ -88,7 +88,7 @@ public class operatorDAO {
                 }
             }
             if(loger!=null){
-            	loger.logException("-1021", e.getMessage(),e);
+            	loger.logException("-1022", e.getMessage(),e);
             	
             }
         }
@@ -124,7 +124,7 @@ public class operatorDAO {
         		}
         	}
         	if(loger!=null){
-        		loger.logException("-1021", e.getMessage(),e);
+        		loger.logException("-1022", e.getMessage(),e);
     	
         	}
         }
@@ -159,7 +159,7 @@ public class operatorDAO {
                 }
             }
             if(loger!=null){
-            	loger.logException("-1021", e.getMessage(),e);
+            	loger.logException("-1022", e.getMessage(),e);
             	
             }
         }
@@ -189,7 +189,7 @@ public class operatorDAO {
                 }
             }
             if(loger!=null){
-            	loger.logException("-1021", e.getMessage(),e);
+            	loger.logException("-1022", e.getMessage(),e);
             	
             }
         }
@@ -202,10 +202,13 @@ public class operatorDAO {
     public static List<TBLOperator> searchData(final CDatabaseConnection databaseConnection, CExtendedLogger loger,CLanguage lenguaje) {
         List<TBLOperator> resul = new ArrayList<TBLOperator>();
         
+        
+        
+        
         return resul;
     }
 
-    public TBLOperator checkvalid(final CDatabaseConnection databaseConnection, final String name,final String password, CExtendedLogger loger,CLanguage lenguaje){
+    public static TBLOperator checkvalid(final CDatabaseConnection databaseConnection, final String name,final String password, CExtendedLogger loger,CLanguage lenguaje){
     	TBLOperator resul=null;
     	
 		 try {
@@ -220,8 +223,8 @@ public class operatorDAO {
 	                    resul.setComent(rs.getString("coment"));
 	                    
 	                    resul.setDisableby(rs.getString("disableby"));
-	                    resul.setDisabledate(rs.getDate("disabledate").toLocalDate());
-	                    resul.setDisabletime(rs.getTime("disabletime").toLocalTime());
+	                    resul.setDisabledate(rs.getDate("disabledate") != null? rs.getDate("disabledate").toLocalDate() : null);
+	                    resul.setDisabletime(rs.getTime("disabletime") != null? rs.getTime("disabletime").toLocalTime() : null);
 	                    
 	                    resul.setLastlogindate(rs.getDate("lastlogindate") != null? rs.getDate("lastlogindate").toLocalDate() : null);
 	                    resul.setLastlogintime(rs.getTime("lastlogintime") != null ? rs.getTime("lastlogintime").toLocalTime() : null);
@@ -249,9 +252,6 @@ public class operatorDAO {
 	            	
 	            }
 	        }
-    	
-    	
-    	
     	
     	return resul;
     }
