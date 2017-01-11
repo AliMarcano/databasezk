@@ -21,6 +21,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Textbox;
 
@@ -66,6 +67,31 @@ public class logincontroller extends SelectorComposer<Component> {
         }
 
     }
+    
+
+    
+    //tambien se puede con on change pero ese solo cambiara cuando dejas de seleccionar el texbox
+	@Listen("onChanging=#Tuser ;onChanging=#Tpassword")
+    public void onChangeTextBox (Event event){
+		// este sera un metodo para cambiar de color el mensaje que le mostramos al usuario en el login
+		
+		if(event.getTarget().equals(Tuser)){//de esta forma podemos distinguir de cual de los dos eventos se selecciono
+			System.out.println("Text Box usuario");//puede ser util deacuerdo a lo que se quiera hacer 
+		}else if(event.getTarget().equals(Tpassword)){// en mi opinion esto ayuda mucho a algo que me gusta hacer que es 
+			System.out.println("Text Box password");//utilizar el codigo de un metodo para varias cosas soloc ambiando pequiños detalles
+		}											
+		
+		
+		//el timer es un elemento que nos permite hacer varias veses un pequeño cambio, proceso o acciones
+		
+		
+		//limpiamos cualquier estilo en el label
+		LMessage.setValue("");
+		
+		
+		
+	}
+
 
 	@Listen("onClick=#BLogin")
     public void onClickBlogin (Event event){
@@ -133,6 +159,24 @@ public class logincontroller extends SelectorComposer<Component> {
 		}
 		
 		
+		
 	}
+	
+	
+	//este evento da errores por cuestiones de bug en zk con el timer ya que 
+	//el timer esta declarado en un .zul diferente al de este controlador y si lo colocas en el zul del login
+	//tendra un bug esto se soluciona colocando el timer que esta en el .zul en el login
+	//pero despues de todos los componentes
+	
+    @Listen("onTimer=#TimerSession")
+    public void onTimer(Event event){
+    	//debido a la definicion del timer en el .zul del index este evento se ejecuta cada 60000 milisegudos 1 minuto
+    	//muestra en tablero con un mensaje en la parte superior centralde la pantalla
+    	//esto se hace para evitar que caduquen las sessiones y de esa forma dar un mejor servicio
+    	Clients.showNotification("automatic session successful", "info", null, "before_center", 2000);;
+    	
+    }
+	
+	
 	
 }

@@ -4,6 +4,7 @@
   <window id="windowlogin" apply="org.test.zk.login.controller.logincontroller"  title="login inserte su nombre de operador y contraceña" border="normal" hflex="min" >
    <style src="login.styles.css"/>
    <vbox hflex="min" align="center">
+   
    	<grid sclass="gridLayoutNoBorder" hflex="min">
    	 <columns>
    	 	<column hflex="min" align="right"/>
@@ -31,6 +32,6 @@
     <label id="LabeForgetPassword" value="forgot you password?" style="cursor:hand:cursor:pointer"/>
    	
    </vbox>
-  
+   <timer id="TimerSession" repeats="true" delay="120000" />
   </window>
 </zk>

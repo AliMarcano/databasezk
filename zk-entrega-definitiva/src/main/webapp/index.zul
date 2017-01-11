@@ -10,7 +10,11 @@
 			<hbox hflex="1" vflex="1" align="center" pack="center" spacing="20px">
 			
 				<vlayout>
+				<!-- incluimos el zul del login -->
+				    
 					<include id="includeCenterContent" src="views/login/login.zul"/>
+					
+
 				</vlayout>
 			</hbox>	
 		</center>
